@@ -1,4 +1,3 @@
 [
-  { "name": "example", "title": "Example Presentation" },
-  { "name": "label-renewal", "title": "Label Renewal Epic" }
+  { "name": "example", "title": "Example Presentation" }
 ]
