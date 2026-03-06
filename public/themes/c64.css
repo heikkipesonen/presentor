@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('/themes/PressStart2P-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root {
+  --bg: #40318d;
+  --fg: #c8c8ff;
+  --accent: #c8c8ff;
+  --slide-bg: #40318d;
+}
+
+body {
+  font-family: 'Press Start 2P', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.slide-content h1 {
+  font-size: 2rem;
+  border-bottom: 4px solid var(--fg);
+  padding-bottom: 0.5rem;
+}
+
+.slide-content p,
+.slide-content li {
+  font-size: 0.9rem;
+  line-height: 2.5;
+}
+
+.input-view h1 {
+  color: var(--fg);
+}

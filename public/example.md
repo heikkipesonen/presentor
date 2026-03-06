@@ -1,3 +1,5 @@
+theme: c64
+
 # Presentor
 
 A markdown-powered presentation tool
