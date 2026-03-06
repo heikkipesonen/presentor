@@ -4,6 +4,7 @@ import { render } from './renderer'
 import { Presenter } from './presenter'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
+const base = import.meta.env.BASE_URL
 
 function loadTheme(theme: string | null) {
   document.querySelector('#presentor-theme')?.remove()
@@ -11,7 +12,7 @@ function loadTheme(theme: string | null) {
   const link = document.createElement('link')
   link.id = 'presentor-theme'
   link.rel = 'stylesheet'
-  link.href = `/themes/${theme}.css`
+  link.href = `${base}themes/${theme}.css`
   document.head.appendChild(link)
 }
 
@@ -29,7 +30,7 @@ function showLoader() {
     </div>
   `
 
-  fetch('/presentations.json')
+  fetch(`${base}presentations.json`)
     .then(r => r.json())
     .then((presentations: { name: string; title: string }[]) => {
       const list = app.querySelector('#presentation-list')!
@@ -72,8 +73,8 @@ function startPresentation(text: string, basePath = '') {
 
 const fileParam = location.search.slice(1)
 if (fileParam) {
-  fetch(`/${fileParam}/slides.md`).then(r => r.text()).then(text => {
-    startPresentation(text, `/${fileParam}`)
+  fetch(`${base}${fileParam}/slides.md`).then(r => r.text()).then(text => {
+    startPresentation(text, `${base}${fileParam}`)
   }).catch(() => showLoader())
 } else {
   showLoader()
