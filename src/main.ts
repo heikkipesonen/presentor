@@ -5,7 +5,18 @@ import { Presenter } from './presenter'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 
+function loadTheme(theme: string | null) {
+  document.querySelector('#presentor-theme')?.remove()
+  if (!theme) return
+  const link = document.createElement('link')
+  link.id = 'presentor-theme'
+  link.rel = 'stylesheet'
+  link.href = `/themes/${theme}.css`
+  document.head.appendChild(link)
+}
+
 function showLoader() {
+  loadTheme(null)
   app.innerHTML = `
     <div class="input-view">
       <h1>Presentor</h1>
@@ -28,6 +39,7 @@ function startPresentation(text: string) {
   const presentation = parse(text)
   if (!presentation.slides.length) return
 
+  loadTheme(presentation.theme)
   app.innerHTML = ''
   render(presentation, app)
 

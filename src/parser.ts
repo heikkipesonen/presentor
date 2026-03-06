@@ -1,8 +1,13 @@
 import type { Presentation, Slide, SlideElement } from './types'
 
 export function parse(text: string): Presentation {
-  const rawSlides = text.split(/^---$/m).map(s => s.trim()).filter(Boolean)
-  return { slides: rawSlides.map(parseSlide) }
+  const lines = text.trim().split('\n')
+  const themeMatch = lines[0]?.match(/^theme:\s*(.+)$/i)
+  const theme = themeMatch ? themeMatch[1].trim() : null
+  const body = themeMatch ? lines.slice(1).join('\n') : text
+
+  const rawSlides = body.split(/^---$/m).map(s => s.trim()).filter(Boolean)
+  return { slides: rawSlides.map(parseSlide), theme }
 }
 
 function parseSlide(raw: string): Slide {
