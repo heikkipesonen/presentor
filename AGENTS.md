@@ -11,7 +11,7 @@
 
 - Every feature must have tests before it is considered complete
 - Run tests before committing to ensure nothing is broken
-- Test files live alongside source: `src/parser.test.ts`, `src/renderer.test.ts`, etc.
+- Test files live in `__tests__` folders co-located with source: `src/__tests__/parser.test.ts`, etc.
 
 ## Code Quality Checks (before committing)
 

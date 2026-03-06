@@ -1,0 +1,76 @@
+import { describe, it, expect } from 'vitest'
+import { render } from '../renderer'
+
+describe('renderer', () => {
+  it('creates slide elements with correct classes', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'title', text: 'Hi' }] }], theme: null }, container)
+
+    expect(container.className).toBe('slides-container')
+    expect(container.querySelectorAll('.slide')).toHaveLength(1)
+  })
+
+  it('sets first slide as active', () => {
+    const container = document.createElement('div')
+    render({
+      slides: [
+        { elements: [{ type: 'title', text: 'One' }] },
+        { elements: [{ type: 'title', text: 'Two' }] },
+      ],
+      theme: null,
+    }, container)
+
+    const slides = container.querySelectorAll('.slide')
+    expect(slides[0].classList.contains('active')).toBe(true)
+    expect(slides[1].classList.contains('active')).toBe(false)
+  })
+
+  it('renders title as h1', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'title', text: 'Hello' }] }], theme: null }, container)
+    expect(container.querySelector('h1')?.textContent).toBe('Hello')
+  })
+
+  it('renders bullet as li', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'bullet', text: 'Item' }] }], theme: null }, container)
+    expect(container.querySelector('li')?.textContent).toBe('Item')
+  })
+
+  it('renders paragraph as p', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'paragraph', text: 'Text' }] }], theme: null }, container)
+    expect(container.querySelector('p')?.textContent).toBe('Text')
+  })
+
+  it('renders image with src and alt', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'image', src: 'pic.png', alt: 'photo' }] }], theme: null }, container)
+    const img = container.querySelector('img')
+    expect(img?.src).toContain('pic.png')
+    expect(img?.alt).toBe('photo')
+  })
+
+  it('sets data-index on slides', () => {
+    const container = document.createElement('div')
+    render({
+      slides: [
+        { elements: [{ type: 'title', text: 'A' }] },
+        { elements: [{ type: 'title', text: 'B' }] },
+      ],
+      theme: null,
+    }, container)
+
+    const slides = container.querySelectorAll('.slide')
+    expect(slides[0].getAttribute('data-index')).toBe('0')
+    expect(slides[1].getAttribute('data-index')).toBe('1')
+  })
+
+  it('clears container before rendering', () => {
+    const container = document.createElement('div')
+    container.innerHTML = '<p>old content</p>'
+    render({ slides: [{ elements: [{ type: 'title', text: 'New' }] }], theme: null }, container)
+    expect(container.querySelector('p.old')).toBeNull()
+    expect(container.querySelector('h1')?.textContent).toBe('New')
+  })
+})
