@@ -11,26 +11,41 @@ export function parse(text: string): Presentation {
 }
 
 function parseSlide(raw: string): Slide {
-  const lines = raw.split('\n')
-  const elements: SlideElement[] = []
+  const columns = raw.split(/^\|\|\|$/m)
 
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (!trimmed) continue
-
-    if (trimmed.startsWith('# ')) {
-      elements.push({ type: 'title', text: trimmed.slice(2) })
-    } else if (trimmed.startsWith('- ')) {
-      elements.push({ type: 'bullet', text: trimmed.slice(2) })
-    } else {
-      const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
-      if (imgMatch) {
-        elements.push({ type: 'image', alt: imgMatch[1], src: imgMatch[2] })
-      } else {
-        elements.push({ type: 'paragraph', text: trimmed })
-      }
+  if (columns.length > 1) {
+    return {
+      elements: [{
+        type: 'columns',
+        children: columns.map(col => parseElements(col.trim())),
+      }],
     }
   }
 
-  return { elements }
+  return { elements: parseElements(raw) }
+}
+
+function parseElements(raw: string): SlideElement[] {
+  const elements: SlideElement[] = []
+  for (const line of raw.split('\n')) {
+    const parsed = parseLine(line.trim())
+    if (parsed) elements.push(parsed)
+  }
+  return elements
+}
+
+function parseLine(trimmed: string): SlideElement | null {
+  if (!trimmed) return null
+
+  if (trimmed.startsWith('# ')) {
+    return { type: 'title', text: trimmed.slice(2) }
+  } else if (trimmed.startsWith('- ')) {
+    return { type: 'bullet', text: trimmed.slice(2) }
+  } else {
+    const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (imgMatch) {
+      return { type: 'image', alt: imgMatch[1], src: imgMatch[2] }
+    }
+    return { type: 'paragraph', text: trimmed }
+  }
 }

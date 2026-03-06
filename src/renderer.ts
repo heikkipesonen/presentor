@@ -1,18 +1,18 @@
 import type { Presentation, Slide, SlideElement } from './types'
 
-export function render(presentation: Presentation, container: HTMLElement) {
+export function render(presentation: Presentation, container: HTMLElement, basePath = '') {
   container.innerHTML = ''
   container.className = 'slides-container'
 
   presentation.slides.forEach((slide, i) => {
-    const el = renderSlide(slide)
+    const el = renderSlide(slide, basePath)
     el.dataset.index = String(i)
     el.classList.toggle('active', i === 0)
     container.appendChild(el)
   })
 }
 
-function renderSlide(slide: Slide): HTMLElement {
+function renderSlide(slide: Slide, basePath: string): HTMLElement {
   const div = document.createElement('div')
   div.className = 'slide'
 
@@ -20,14 +20,14 @@ function renderSlide(slide: Slide): HTMLElement {
   content.className = 'slide-content'
 
   for (const el of slide.elements) {
-    content.appendChild(renderElement(el))
+    content.appendChild(renderElement(el, basePath))
   }
 
   div.appendChild(content)
   return div
 }
 
-function renderElement(el: SlideElement): HTMLElement {
+function renderElement(el: SlideElement, basePath: string): HTMLElement {
   switch (el.type) {
     case 'title': {
       const h = document.createElement('h1')
@@ -46,9 +46,22 @@ function renderElement(el: SlideElement): HTMLElement {
     }
     case 'image': {
       const img = document.createElement('img')
-      img.src = el.src
+      img.src = el.src.startsWith('http') ? el.src : `${basePath}/${el.src}`
       img.alt = el.alt
       return img
+    }
+    case 'columns': {
+      const row = document.createElement('div')
+      row.className = 'columns'
+      for (const column of el.children) {
+        const col = document.createElement('div')
+        col.className = 'column'
+        for (const child of column) {
+          col.appendChild(renderElement(child, basePath))
+        }
+        row.appendChild(col)
+      }
+      return row
     }
   }
 }

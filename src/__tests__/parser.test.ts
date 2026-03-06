@@ -60,4 +60,27 @@ describe('parser', () => {
     expect(elements[2].type).toBe('bullet')
     expect(elements[3].type).toBe('image')
   })
+
+  it('parses columns block', () => {
+    const result = parse('Left text\n|||\n![b](b.png)')
+    const el = result.slides[0].elements[0]
+    expect(el.type).toBe('columns')
+    if (el.type === 'columns') {
+      expect(el.children).toHaveLength(2)
+      expect(el.children[0]).toEqual([{ type: 'paragraph', text: 'Left text' }])
+      expect(el.children[1]).toEqual([{ type: 'image', alt: 'b', src: 'b.png' }])
+    }
+  })
+
+  it('parses columns with mixed content', () => {
+    const result = parse('# Title\n- Bullet\n|||\n![img](pic.png)')
+    const el = result.slides[0].elements[0]
+    expect(el.type).toBe('columns')
+    if (el.type === 'columns') {
+      expect(el.children[0]).toHaveLength(2)
+      expect(el.children[0][0].type).toBe('title')
+      expect(el.children[0][1].type).toBe('bullet')
+      expect(el.children[1][0].type).toBe('image')
+    }
+  })
 })

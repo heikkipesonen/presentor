@@ -3,6 +3,7 @@ export type SlideElement =
   | { type: 'bullet'; text: string }
   | { type: 'paragraph'; text: string }
   | { type: 'image'; src: string; alt: string }
+  | { type: 'columns'; children: SlideElement[][] }
 
 export interface Slide {
   elements: SlideElement[]

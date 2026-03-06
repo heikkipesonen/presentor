@@ -73,4 +73,17 @@ describe('renderer', () => {
     expect(container.querySelector('p.old')).toBeNull()
     expect(container.querySelector('h1')?.textContent).toBe('New')
   })
+
+  it('renders columns as flex container', () => {
+    const container = document.createElement('div')
+    render({ slides: [{ elements: [{ type: 'columns', children: [
+      [{ type: 'paragraph', text: 'Left' }],
+      [{ type: 'image', src: 'a.png', alt: 'a' }],
+    ] }] }], theme: null }, container)
+    const columns = container.querySelector('.columns')
+    expect(columns).not.toBeNull()
+    expect(columns?.querySelectorAll('.column')).toHaveLength(2)
+    expect(columns?.querySelector('p')?.textContent).toBe('Left')
+    expect(columns?.querySelector('img')).not.toBeNull()
+  })
 })
