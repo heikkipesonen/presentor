@@ -21,3 +21,22 @@ body {
   font-size: 1rem;
   line-height: 2;
 }
+
+.slide-nav {
+  background: #00aaaa;
+  border: none;
+}
+
+.slide-nav-item {
+  color: #000000;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  opacity: 1;
+  padding: 0.2rem 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.slide-nav-item.active {
+  background: #000000;
+  color: #00aaaa;
+}
