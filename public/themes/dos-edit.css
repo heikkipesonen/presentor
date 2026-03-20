@@ -32,6 +32,8 @@ body {
 .slide-nav {
   background: #00aaaa;
   border: none;
+  height: 1.6rem;
+  align-items: center;
 }
 
 .slide-nav-item {
