@@ -1,0 +1,23 @@
+:root {
+  --bg: #0000aa;
+  --fg: #ffffff;
+  --accent: #ffff55;
+  --slide-bg: #0000aa;
+}
+
+body {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.05em;
+}
+
+.slide-content h1 {
+  color: var(--accent);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+}
+
+.slide-content p,
+.slide-content li {
+  font-size: 1rem;
+  line-height: 2;
+}
