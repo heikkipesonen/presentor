@@ -1,3 +1,4 @@
 [
-  { "name": "example", "title": "Example Presentation" }
+  { "name": "example", "title": "Example Presentation" },
+  { "name": "dos-edit", "title": "DOS Edit" }
 ]
