@@ -41,3 +41,9 @@ body {
   background: #000000;
   color: #00aaaa;
 }
+
+.slide-nav-item + .slide-nav-item::before {
+  content: '›';
+  margin-right: 0.8rem;
+  color: #000000;
+}
