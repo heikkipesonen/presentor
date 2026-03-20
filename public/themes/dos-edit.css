@@ -31,20 +31,15 @@ body {
 
 .slide-nav {
   background: #00aaaa;
-  border: none;
-  height: 1.6rem;
-  align-items: center;
 }
 
 .slide-nav-item {
   color: #000000;
-  font-family: 'Perfect DOS VGA 437', monospace;
+  font-family: monospace;
+  font-size: 0.8rem;
   font-weight: bold;
-  font-size: 0.55rem;
-  line-height: 1;
   opacity: 1;
   padding: 0.3rem 0.8rem;
-  letter-spacing: 0.05em;
 }
 
 .slide-nav-item.active {
