@@ -148,3 +148,33 @@ body {
 .column img {
   max-height: 50vh;
 }
+
+/* Slide nav bar */
+.slide-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.slide-nav-item {
+  flex: none;
+  padding: 0.4rem 1rem;
+  background: none;
+  border: none;
+  color: var(--fg);
+  opacity: 0.5;
+  font-size: 0.75rem;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.slide-nav-item.active {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}

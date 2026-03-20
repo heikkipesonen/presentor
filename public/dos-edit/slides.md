@@ -1,4 +1,5 @@
 theme: dos-edit
+nav: true
 
 # MS-DOS Edit
 

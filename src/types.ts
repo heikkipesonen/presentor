@@ -12,4 +12,5 @@ export interface Slide {
 export interface Presentation {
   slides: Slide[]
   theme: string | null
+  nav: boolean
 }

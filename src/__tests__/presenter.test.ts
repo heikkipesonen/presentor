@@ -11,6 +11,21 @@ function createSlides(count: number): HTMLElement {
   return container
 }
 
+function createSlidesWithNav(count: number): HTMLElement {
+  const container = createSlides(count)
+  const nav = document.createElement('nav')
+  nav.className = 'slide-nav'
+  for (let i = 0; i < count; i++) {
+    const btn = document.createElement('button')
+    btn.className = 'slide-nav-item'
+    btn.dataset.index = String(i)
+    btn.textContent = `Slide ${i + 1}`
+    nav.appendChild(btn)
+  }
+  container.appendChild(nav)
+  return container
+}
+
 describe('presenter', () => {
   it('sets first slide as active on update', () => {
     const container = createSlides(3)
@@ -65,5 +80,30 @@ describe('presenter', () => {
 
     const slides = container.querySelectorAll('.slide')
     expect(slides[0].classList.contains('active')).toBe(true)
+  })
+
+  it('updates nav item active state on navigation', () => {
+    const container = createSlidesWithNav(3)
+    const presenter = new Presenter(container)
+    presenter.update()
+
+    const items = container.querySelectorAll('.slide-nav-item')
+    expect(items[0].classList.contains('active')).toBe(true)
+    presenter.next()
+    expect(items[0].classList.contains('active')).toBe(false)
+    expect(items[1].classList.contains('active')).toBe(true)
+  })
+
+  it('navigates when nav item is clicked', () => {
+    const container = createSlidesWithNav(3)
+    const presenter = new Presenter(container)
+    presenter.update()
+
+    const items = container.querySelectorAll('.slide-nav-item')
+    items[2].dispatchEvent(new MouseEvent('click', { bubbles: true }))
+
+    const slides = container.querySelectorAll('.slide')
+    expect(slides[2].classList.contains('active')).toBe(true)
+    expect(items[2].classList.contains('active')).toBe(true)
   })
 })

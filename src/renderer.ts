@@ -10,6 +10,10 @@ export function render(presentation: Presentation, container: HTMLElement, baseP
     el.classList.toggle('active', i === 0)
     container.appendChild(el)
   })
+
+  if (presentation.nav) {
+    container.appendChild(renderNav(presentation))
+  }
 }
 
 function renderSlide(slide: Slide, basePath: string): HTMLElement {
@@ -64,4 +68,23 @@ function renderElement(el: SlideElement, basePath: string): HTMLElement {
       return row
     }
   }
+}
+
+function slideTitle(slide: Slide, index: number): string {
+  const title = slide.elements.find(e => e.type === 'title')
+  return title && 'text' in title ? title.text : `Slide ${index + 1}`
+}
+
+function renderNav(presentation: Presentation): HTMLElement {
+  const nav = document.createElement('nav')
+  nav.className = 'slide-nav'
+  presentation.slides.forEach((slide, i) => {
+    const btn = document.createElement('button')
+    btn.className = 'slide-nav-item'
+    btn.textContent = slideTitle(slide, i)
+    btn.dataset.index = String(i)
+    if (i === 0) btn.classList.add('active')
+    nav.appendChild(btn)
+  })
+  return nav
 }

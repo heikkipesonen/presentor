@@ -51,6 +51,23 @@ describe('parser', () => {
     expect(result.theme).toBe('dark')
   })
 
+  it('parses nav: true from front-matter', () => {
+    const result = parse('nav: true\n\n# Hello')
+    expect(result.nav).toBe(true)
+  })
+
+  it('defaults nav to false', () => {
+    const result = parse('# Hello')
+    expect(result.nav).toBe(false)
+  })
+
+  it('parses theme and nav together', () => {
+    const result = parse('theme: c64\nnav: true\n\n# Hello')
+    expect(result.theme).toBe('c64')
+    expect(result.nav).toBe(true)
+    expect(result.slides[0].elements[0]).toEqual({ type: 'title', text: 'Hello' })
+  })
+
   it('parses mixed content in a slide', () => {
     const result = parse('# Title\n\nSome text\n\n- Bullet\n\n![img](pic.png)')
     const elements = result.slides[0].elements
